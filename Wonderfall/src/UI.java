@@ -43,8 +43,8 @@ public class UI
 		tabbedPanel.addTab("Presets", presetPanel);
 		frame.add(tabbedPanel);
 
-		JScrollPane scroller = new JScrollPane(imagePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scroller.setPreferredSize(new Dimension(0, 500));
+		JScrollPane scroller = new JScrollPane(imagePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		scroller.setPreferredSize(new Dimension(0, 500));
 		frame.add(scroller);
 
 		frame.setVisible(true);

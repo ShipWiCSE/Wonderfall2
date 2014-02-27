@@ -1,9 +1,13 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 class ImagePanel extends JPanel
@@ -35,15 +39,22 @@ class ImagePanel extends JPanel
 	{
 
 		super.paintComponent(g);
+		FontMetrics metrics = g.getFontMetrics(font);
+		int stringWidth = metrics.stringWidth(stringToPrint);
+		this.setPreferredSize(new Dimension(32,stringWidth));
+		this.setMaximumSize(new Dimension(32,stringWidth));
+		this.setMinimumSize(new Dimension(32,stringWidth));
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform orig = g2.getTransform();
-		int panelHeight  = this.getHeight();
-		int panelWidth = this.getWidth();
-		g2.rotate(-Math.PI/2,panelWidth/2,panelHeight/2);
+		g2.rotate(-Math.PI/2,stringWidth/2,stringWidth/2);
+		g2.translate(0,this.getParent().getWidth()/2);
 		g2.setFont(font);
-		g2.drawString(stringToPrint, 100, 200);
+		g2.drawString(stringToPrint, 0, 32);
+
+
 		g2.setTransform(orig);
-		
+		revalidate();
+//		this.getParent().getParent().repaint();
 	}
 
 }
