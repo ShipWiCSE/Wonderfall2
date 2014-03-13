@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Runner
 {
 
@@ -12,7 +15,22 @@ public class Runner
 		{
 			public void run()
 			{
-				ui.createAndShowGUI();
+				try
+				{
+					ui.createAndShowGUI();
+				} catch (FileNotFoundException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FileFormatException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}

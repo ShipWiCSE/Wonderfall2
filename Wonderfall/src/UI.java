@@ -4,8 +4,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,8 +25,10 @@ public class UI
 	private JTextField textField;
 	private JComboBox<String> font;
 	private ImagePanel imagePanel;
+	private ImageIcon imageIcon;
+	private DrawableIcon drawableIcon;
 
-	public void createAndShowGUI()
+	public void createAndShowGUI() throws FileFormatException, IOException
 	{
 		imagePanel = new ImagePanel();
 
@@ -36,18 +41,41 @@ public class UI
 		JPanel textEditingPanel = makeTextEditingPanel();
 
 		JPanel doodlePanel = new JPanel();
-		JPanel presetPanel = new JPanel();
+		JPanel presetPanel = makePresetPanel();
 
 		tabbedPanel.addTab("Text", textEditingPanel);
 		tabbedPanel.addTab("Doodle", doodlePanel);
 		tabbedPanel.addTab("Presets", presetPanel);
 		frame.add(tabbedPanel);
 
-		JScrollPane scroller = new JScrollPane(imagePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//		scroller.setPreferredSize(new Dimension(0, 500));
+		JScrollPane scroller = new JScrollPane(imagePanel,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		// scroller.setPreferredSize(new Dimension(0, 500));
 		frame.add(scroller);
 
 		frame.setVisible(true);
+	}
+
+	private JPanel makePresetPanel() throws FileFormatException, IOException
+	{
+		JPanel presetPanel = new JPanel();
+		presetPanel.setLayout(new FlowLayout());
+
+		PresetFileReader fileReader = new PresetFileReader();
+		ArrayList<DrawableIcon> presets = fileReader
+				.readFile("presetDiagonals.txt");
+
+		for (int i = 0; i < presets.size(); i++)
+		{
+			drawableIcon = presets.get(i);
+			imageIcon = new ImageIcon(drawableIcon
+					.getImage());
+			JButton button = new JButton(imageIcon);
+			button.addActionListener(new PresetListener(drawableIcon));
+			presetPanel.add(button);
+		}
+		return presetPanel;
 	}
 
 	private JPanel makeTextEditingPanel()
@@ -97,8 +125,9 @@ public class UI
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				imagePanel.setFont(new Font((String) font.getSelectedItem(),Font.PLAIN, 32));
-				imagePanel.setStringToPrint(textField.getText());
+				imagePanel.addText(textField.getText(),
+						(new Font((String) font.getSelectedItem(), Font.PLAIN,
+								32)));
 			}
 
 		});
@@ -120,4 +149,19 @@ public class UI
 		return clear;
 	}
 
+	private class PresetListener implements ActionListener
+	{
+
+		private DrawableIcon icon;
+		public PresetListener(DrawableIcon icon)
+		{
+			this.icon = icon;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0)
+		{
+			System.out.println("Trying to add the image");
+			imagePanel.addImage(icon);
+		}
+	}
 }
