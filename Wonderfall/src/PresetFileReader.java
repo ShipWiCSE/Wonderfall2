@@ -1,12 +1,23 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Reads files that contain preset image maps
+ * @author Merlin
+ *
+ */
 public class PresetFileReader
 {
 
+	/**
+	 * Read the file with a given title and return a list of drawable icons it represents
+	 * @param fileTitle the name of the file
+	 * @return a list of DrawableIcons
+	 * @throws FileFormatException if the file contains rows that are not 32 bits wide
+	 * @throws IOException if the file can't be found
+	 */
 	public ArrayList<DrawableIcon> readFile(String fileTitle)
 			throws FileFormatException, IOException
 	{

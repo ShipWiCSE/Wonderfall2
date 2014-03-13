@@ -1,34 +1,37 @@
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
-import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-
+/**
+ * A drawable image
+ * 
+ * @author Merlin
+ * 
+ */
 public class DrawableIcon implements Drawable
 {
 	private static final int[] BLACK =
-	{ 0, 0, 0};
+	{ 0, 0, 0 };
 	private static final int[] WHITE =
 	{ 255, 255, 255 };
 	BufferedImage image;
 	BufferedImage imageRotated;
 
-	public DrawableIcon(ArrayList<String> strings) throws IOException
+	/**
+	 * Build the image from a list of strings of 1s and 0s. 0 will be black
+	 * (where water should be) and 1 will be white (where water shouldn't be)
+	 * 
+	 * @param strings the data we should make the image from
+	 */
+	public DrawableIcon(ArrayList<String> strings) 
 	{
-		image = new BufferedImage( 32, strings.size(),BufferedImage.TYPE_INT_RGB);
-		imageRotated = new BufferedImage( strings.size(), 32, BufferedImage.TYPE_INT_RGB);
-		 
+		image = new BufferedImage(32, strings.size(),
+				BufferedImage.TYPE_INT_RGB);
+		imageRotated = new BufferedImage(strings.size(), 32,
+				BufferedImage.TYPE_INT_RGB);
+
 		WritableRaster raster = image.getRaster();
 		WritableRaster rasterRotated = imageRotated.getRaster();
 		for (int row = 0; row < strings.size(); row++)
@@ -39,30 +42,42 @@ public class DrawableIcon implements Drawable
 				if (thisRowsData.charAt(col) == '1')
 				{
 					raster.setPixel(col, row, WHITE);
-					rasterRotated.setPixel( imageRotated.getWidth() - 1 -row, col, WHITE);
+					rasterRotated.setPixel(imageRotated.getWidth() - 1 - row,
+							col, WHITE);
 				} else
 				{
 					raster.setPixel(col, row, BLACK);
-					rasterRotated.setPixel( imageRotated.getWidth() - 1 -row,col, BLACK);
+					rasterRotated.setPixel(imageRotated.getWidth() - 1 - row,
+							col, BLACK);
 				}
 			}
 		}
-		ImageIO.write(image, "jpeg", new File("silly" + Math.random() + "jpg"));
 
 	}
 
+
+	/**
+	 * @see Drawable#getWidth(java.awt.Graphics)
+	 */
 	@Override
 	public int getWidth(Graphics g)
 	{
 		return image.getHeight();
 	}
 
+	/**
+	 * @see Drawable#drawYourself(java.awt.Graphics, int)
+	 */
 	@Override
 	public void drawYourself(Graphics g, int whereWeAre)
 	{
 		g.drawImage(imageRotated, whereWeAre, 0, null);
 	}
 
+	/**
+	 * Get the image that this DrawableImage will add to the stream
+	 * @return the image
+	 */
 	public Image getImage()
 	{
 		return image;

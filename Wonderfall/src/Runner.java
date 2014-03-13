@@ -1,11 +1,20 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Runnable class that creates and runs the UI
+ * @author Merlin
+ *
+ */
 public class Runner
 {
 
 	private static UI ui;
 
+	/**
+	 * 
+	 * @param args none are used now
+	 */
 	public static void main(String[] args)
 	{
 		ui = new UI();
