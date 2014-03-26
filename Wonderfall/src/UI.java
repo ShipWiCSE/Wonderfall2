@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,9 +17,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+/**
+ * 
+ */
 public class UI
 {
 
+	private static final String PRESETS_DIRECTORY = "presets";
 	private static final String[] FONTS =
 	{ "Arial", "Courier", "Helvetica", "Times New Roman" };
 	private JTextField textField;
@@ -26,7 +31,15 @@ public class UI
 	private ImagePanel imagePanel;
 	private ImageIcon imageIcon;
 	private DrawableIcon drawableIcon;
+	private JComboBox<String> presetFilesBox;
+	private JPanel presetButtonPanel;
 
+	/**
+	 * @throws FileFormatException
+	 *             shouldn't
+	 * @throws IOException
+	 *             shouldn't
+	 */
 	public void createAndShowGUI() throws FileFormatException, IOException
 	{
 		imagePanel = new ImagePanel();
@@ -61,20 +74,58 @@ public class UI
 		JPanel presetPanel = new JPanel();
 		presetPanel.setLayout(new FlowLayout());
 
-		PresetFileReader fileReader = new PresetFileReader();
-		ArrayList<DrawableIcon> presets = fileReader
-				.readFile("presetDiagonals.txt");
-
-		for (int i = 0; i < presets.size(); i++)
+		presetFilesBox = new JComboBox<String>();
+		File[] presetFiles = getPresetFiles();
+		for (File f : presetFiles)
 		{
-			drawableIcon = presets.get(i);
-			imageIcon = new ImageIcon(drawableIcon
-					.getImage());
-			JButton button = new JButton(imageIcon);
-			button.addActionListener(new PresetListener(drawableIcon));
-			presetPanel.add(button);
+			presetFilesBox.addItem(f.getName());
 		}
+		presetFilesBox.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				String presetFileTitle = PRESETS_DIRECTORY + "/" + (String) presetFilesBox.getSelectedItem();
+				rebuildPresetButtonPanel(presetFileTitle);
+			}
+		});
+		presetPanel.add(presetFilesBox);
+
+		presetButtonPanel = new JPanel();
+		presetPanel.add(presetButtonPanel);
+
 		return presetPanel;
+	}
+
+	private void rebuildPresetButtonPanel(String fileTitle)
+	{
+		presetButtonPanel.removeAll();
+		PresetFileReader fileReader = new PresetFileReader();
+		ArrayList<DrawableIcon> presets;
+		try
+		{
+			presets = fileReader.readFile(fileTitle);
+			for (int i = 0; i < presets.size(); i++)
+			{
+				drawableIcon = presets.get(i);
+				imageIcon = new ImageIcon(drawableIcon.getImage());
+				JButton button = new JButton(imageIcon);
+				button.addActionListener(new PresetListener(drawableIcon));
+				presetButtonPanel.add(button);
+			}
+		} catch (FileFormatException | IOException e)
+		{
+			e.printStackTrace();
+		}
+		presetButtonPanel.revalidate();
+	}
+
+	private File[] getPresetFiles()
+	{
+		File folder = new File(PRESETS_DIRECTORY);
+		File[] list = folder.listFiles();
+
+		return list;
 	}
 
 	private JPanel makeTextEditingPanel()
@@ -152,10 +203,12 @@ public class UI
 	{
 
 		private DrawableIcon icon;
+
 		public PresetListener(DrawableIcon icon)
 		{
 			this.icon = icon;
 		}
+
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
