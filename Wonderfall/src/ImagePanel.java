@@ -73,4 +73,10 @@ class ImagePanel extends JPanel
 		return totalWidth;
 	}
 
+	public void getImageAsBits()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

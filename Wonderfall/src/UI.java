@@ -49,7 +49,7 @@ public class UI
 
 		JFrame frame = new JFrame("Wonderfall");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridLayout(0, 2));
+		frame.setLayout(new GridLayout(0, 3));
 		frame.setSize(new Dimension(900, 400));
 
 		JTabbedPane tabbedPanel = new JTabbedPane();
@@ -64,6 +64,21 @@ public class UI
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		tabbedPanel.addTab("Presets", scrollerPresets);
 		frame.add(tabbedPanel);
+		
+		JPanel controlPanel = new JPanel();
+		JButton sendButton = new JButton("Send");
+		sendButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				imagePanel.getImageAsBits();
+				
+			}
+			
+		});
+		controlPanel.add(sendButton);
+		frame.add(controlPanel);
 
 		JScrollPane scroller = new JScrollPane(imagePanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -156,7 +171,7 @@ public class UI
 		JButton add = makeAddButton();
 		JButton clear = makeClearButton();
 		JButton save = new JButton("Save");
-		textField = new JTextField(15);
+		textField = new JTextField(10);
 		textField.setFont(new Font(FONTS[0], Font.PLAIN, FONT_SIZE));
 		textEditingPanel.add(textField);
 		textEditingPanel.add(add);
