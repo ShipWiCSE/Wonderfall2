@@ -1,6 +1,8 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +25,7 @@ import javax.swing.JTextField;
 public class UI
 {
 
+	private static final int FONT_SIZE = 32;
 	private static final String PRESETS_DIRECTORY = "presets";
 	private static final String[] FONTS =
 	{ "Arial", "Courier", "Helvetica", "Times New Roman" };
@@ -32,7 +35,7 @@ public class UI
 	private ImageIcon imageIcon;
 	private DrawableIcon drawableIcon;
 	private JComboBox<String> presetFilesBox;
-	private JPanel presetButtonPanel;
+	private JPanel presetIconsPanel;
 
 	/**
 	 * @throws FileFormatException
@@ -53,11 +56,13 @@ public class UI
 		JPanel textEditingPanel = makeTextEditingPanel();
 
 		JPanel doodlePanel = new JPanel();
-		JPanel presetPanel = makePresetPanel();
+		JPanel presetPanel = makePresetPanel(tabbedPanel.getWidth(), tabbedPanel.getHeight());
 
 		tabbedPanel.addTab("Text", textEditingPanel);
 		tabbedPanel.addTab("Doodle", doodlePanel);
-		tabbedPanel.addTab("Presets", presetPanel);
+		JScrollPane scrollerPresets = new JScrollPane(presetPanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		tabbedPanel.addTab("Presets", scrollerPresets);
 		frame.add(tabbedPanel);
 
 		JScrollPane scroller = new JScrollPane(imagePanel,
@@ -69,12 +74,16 @@ public class UI
 		frame.setVisible(true);
 	}
 
-	private JPanel makePresetPanel() throws FileFormatException, IOException
+	private JPanel makePresetPanel(int width, int height) throws FileFormatException, IOException
 	{
 		JPanel presetPanel = new JPanel();
-		presetPanel.setLayout(new FlowLayout());
-
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		presetPanel.setLayout(new GridBagLayout());
+		
 		presetFilesBox = new JComboBox<String>();
+		
 		File[] presetFiles = getPresetFiles();
 		for (File f : presetFiles)
 		{
@@ -89,17 +98,26 @@ public class UI
 				rebuildPresetButtonPanel(presetFileTitle);
 			}
 		});
-		presetPanel.add(presetFilesBox);
-
-		presetButtonPanel = new JPanel();
-		presetPanel.add(presetButtonPanel);
-
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		presetPanel.add(presetFilesBox, constraints);
+		
+		presetIconsPanel = new JPanel();
+		presetIconsPanel.setLayout(new GridLayout(0,6));
+		
+//		scroller.setPreferredSize(new Dimension(width,height));
+//		scroller.setMaximumSize(new Dimension(width,height));
+//		scroller.setMinimumSize(new Dimension(width,height));
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		presetPanel.add(presetIconsPanel, constraints);
+		
 		return presetPanel;
 	}
 
 	private void rebuildPresetButtonPanel(String fileTitle)
 	{
-		presetButtonPanel.removeAll();
+		presetIconsPanel.removeAll();
 		PresetFileReader fileReader = new PresetFileReader();
 		ArrayList<DrawableIcon> presets;
 		try
@@ -111,13 +129,13 @@ public class UI
 				imageIcon = new ImageIcon(drawableIcon.getImage());
 				JButton button = new JButton(imageIcon);
 				button.addActionListener(new PresetListener(drawableIcon));
-				presetButtonPanel.add(button);
+				presetIconsPanel.add(button);
 			}
 		} catch (FileFormatException | IOException e)
 		{
 			e.printStackTrace();
 		}
-		presetButtonPanel.revalidate();
+		presetIconsPanel.revalidate();
 	}
 
 	private File[] getPresetFiles()
@@ -139,7 +157,7 @@ public class UI
 		JButton clear = makeClearButton();
 		JButton save = new JButton("Save");
 		textField = new JTextField(15);
-		textField.setFont(new Font(FONTS[0], Font.PLAIN, 32));
+		textField.setFont(new Font(FONTS[0], Font.PLAIN, FONT_SIZE));
 		textEditingPanel.add(textField);
 		textEditingPanel.add(add);
 		textEditingPanel.add(clear);

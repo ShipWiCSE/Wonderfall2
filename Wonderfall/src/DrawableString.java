@@ -59,7 +59,7 @@ public class DrawableString implements Drawable
 	public void drawYourself(Graphics g, int whereWeAre)
 	{
 		g.setFont(font);
-		g.drawString(string, whereWeAre, 32);
+		g.drawString(string, whereWeAre, font.getSize()-8);
 	}
 
 }
