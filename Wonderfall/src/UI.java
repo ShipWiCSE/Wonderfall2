@@ -59,7 +59,7 @@ public class UI
 
 		JFrame frame = new JFrame("Wonderfall");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridLayout(0, 3));
+		frame.setLayout(new GridLayout(0,3));
 		frame.setSize(new Dimension(900, 400));
 
 		JTabbedPane tabbedPanel = new JTabbedPane();
@@ -83,8 +83,8 @@ public class UI
 			public void actionPerformed(ActionEvent e)
 			{
 				boolean[][] bits = imagePanel.getImageAsBits();
-//				FullSetUp command= new FullSetUp(bits,speed.getValue());
-//                Invoker.getSingleton().execute(command);
+				FullSetUp command= new FullSetUp(bits,150);
+                Invoker.getSingleton().execute(command);
 			}
 			
 		});

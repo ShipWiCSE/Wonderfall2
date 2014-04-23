@@ -28,7 +28,9 @@ public class PortManagerComm implements PortManager
 		 */
 		public PortManagerComm()
 		{
-			this.deviceName = "/dev/tty.usbmodemfd131";
+//			this.deviceName = "/dev/tty.usbmodemfd131";
+			this.deviceName = "com5";
+			
 			this.port = null;
 		}
 
