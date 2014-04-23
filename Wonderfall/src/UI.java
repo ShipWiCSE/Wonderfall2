@@ -16,8 +16,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+
+import backend.Invoker;
+import commands.FullSetUp;
 
 /**
  * 
@@ -29,6 +35,8 @@ public class UI
 	private static final String PRESETS_DIRECTORY = "presets";
 	private static final String[] FONTS =
 	{ "Arial", "Courier", "Helvetica", "Times New Roman" };
+	protected static final int NUMBER_OF_VALVES = 32;
+	protected static final int FONT_OVERSIZE = 10;
 	private JTextField textField;
 	private JComboBox<String> font;
 	private ImagePanel imagePanel;
@@ -36,6 +44,7 @@ public class UI
 	private DrawableIcon drawableIcon;
 	private JComboBox<String> presetFilesBox;
 	private JPanel presetIconsPanel;
+	private static JSpinner speed;
 
 	/**
 	 * @throws FileFormatException
@@ -46,6 +55,7 @@ public class UI
 	public void createAndShowGUI() throws FileFormatException, IOException
 	{
 		imagePanel = new ImagePanel();
+		setUpSpeedInput();
 
 		JFrame frame = new JFrame("Wonderfall");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,12 +82,15 @@ public class UI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				imagePanel.getImageAsBits();
-				
+				boolean[][] bits = imagePanel.getImageAsBits();
+//				FullSetUp command= new FullSetUp(bits,speed.getValue());
+//                Invoker.getSingleton().execute(command);
 			}
 			
 		});
 		controlPanel.add(sendButton);
+		controlPanel.add(speed);
+		
 		frame.add(controlPanel);
 
 		JScrollPane scroller = new JScrollPane(imagePanel,
@@ -87,6 +100,16 @@ public class UI
 		frame.add(scroller);
 
 		frame.setVisible(true);
+	}
+
+	private void setUpSpeedInput()
+	{
+		Integer value = new Integer(100);
+		 Integer min = new Integer(50);
+		 Integer max = new Integer(250);
+		 Integer step = new Integer(10);
+		 SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
+		speed = new JSpinner(model);
 	}
 
 	private JPanel makePresetPanel(int width, int height) throws FileFormatException, IOException
@@ -194,7 +217,7 @@ public class UI
 			public void actionPerformed(ActionEvent arg0)
 			{
 				String fontName = (String) font.getSelectedItem();
-				textField.setFont(new Font(fontName, Font.PLAIN, 32));
+				textField.setFont(new Font(fontName, Font.PLAIN, NUMBER_OF_VALVES));
 			}
 		});
 	}
@@ -210,7 +233,7 @@ public class UI
 			{
 				imagePanel.addText(textField.getText(),
 						(new Font((String) font.getSelectedItem(), Font.PLAIN,
-								32)));
+								NUMBER_OF_VALVES + FONT_OVERSIZE)));
 			}
 
 		});
@@ -245,7 +268,6 @@ public class UI
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
-			System.out.println("Trying to add the image");
 			imagePanel.addImage(icon);
 		}
 	}
