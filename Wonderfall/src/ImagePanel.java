@@ -116,9 +116,9 @@ class ImagePanel extends JPanel
 			for (int row = 0; row < 32; row++)
 			{
 				int rgb = raster.getSample(col, row, 0);
-				if (rgb != 0)
+				if (rgb == 0)
 				{
-					bits[col][row] = true;
+					bits[col][31-row] = true;
 					System.out.print("1");
 				} else
 				{

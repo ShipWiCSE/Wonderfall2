@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -10,20 +11,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
 
 import backend.Invoker;
 import commands.FullSetUp;
+import commands.SetSpeed;
 
 /**
  * 
@@ -60,7 +63,7 @@ public class UI
 		JFrame frame = new JFrame("Wonderfall");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(0,3));
-		frame.setSize(new Dimension(900, 400));
+		frame.setSize(new Dimension(1000, 600));
 
 		JTabbedPane tabbedPanel = new JTabbedPane();
 		JPanel textEditingPanel = makeTextEditingPanel();
@@ -75,7 +78,12 @@ public class UI
 		tabbedPanel.addTab("Presets", scrollerPresets);
 		frame.add(tabbedPanel);
 		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new BorderLayout());
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBorder(new TitledBorder("Talk to the device"));
+		controlPanel.setLayout(new BoxLayout(controlPanel,BoxLayout.Y_AXIS));
+		controlPanel.setPreferredSize(new Dimension(400,400));
 		JButton sendButton = new JButton("Send");
 		sendButton.addActionListener(new ActionListener(){
 
@@ -83,15 +91,29 @@ public class UI
 			public void actionPerformed(ActionEvent e)
 			{
 				boolean[][] bits = imagePanel.getImageAsBits();
-				FullSetUp command= new FullSetUp(bits,150);
+				FullSetUp command= new FullSetUp(bits,(Integer)speed.getValue());
                 Invoker.getSingleton().execute(command);
 			}
 			
 		});
 		controlPanel.add(sendButton);
-		controlPanel.add(speed);
-		
-		frame.add(controlPanel);
+		JPanel speedPanel = new JPanel();
+		speedPanel.add(speed);
+		JButton speedSetButton = new JButton("Set Timeout");
+		speedSetButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SetSpeed command = new SetSpeed((Integer)speed.getValue());
+				Invoker.getSingleton().execute(command);
+			}
+			
+		});
+		speedPanel.add(speedSetButton);
+		speedPanel.setBorder(new TitledBorder("Speed"));
+		controlPanel.add(speedPanel);
+		centerPanel.add(controlPanel);
+		frame.add(centerPanel);
 
 		JScrollPane scroller = new JScrollPane(imagePanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,

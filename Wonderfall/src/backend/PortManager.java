@@ -45,10 +45,5 @@ public interface PortManager {
 	 * @throws IOException
 	 */
 	public String[] getSerialPorts( ) throws IOException;
-	
-	/**
-	 * Get the last command we were given
-	 * @return the command as we parsed it
-	 */
-	public String[] getTokens();
+
 }

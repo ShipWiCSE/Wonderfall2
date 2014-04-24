@@ -28,8 +28,8 @@ public class PortManagerComm implements PortManager
 		 */
 		public PortManagerComm()
 		{
-//			this.deviceName = "/dev/tty.usbmodemfd131";
-			this.deviceName = "com5";
+			this.deviceName = "/dev/ttyUSB0";
+//			this.deviceName = "com5";
 			
 			this.port = null;
 		}
@@ -57,6 +57,7 @@ public class PortManagerComm implements PortManager
 			}
 			catch (NoSuchPortException e)
 			{
+				System.out.println("Failed opening " + deviceName);
 				e.printStackTrace();
 				throw new IOException(e);
 			}
@@ -120,15 +121,6 @@ public class PortManagerComm implements PortManager
 			ports = portList.toArray(ports);
 			
 			return ports;
-		}
-
-		/**
-		 * @see backend.PortManager#getTokens()
-		 */
-		public String[] getTokens()
-		{
-			// TODO Auto-generated method stub
-			return null;
 		}
 
 }

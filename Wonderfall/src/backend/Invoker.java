@@ -21,7 +21,7 @@ public class Invoker
 
 	private static Invoker singleton;
 	ArrayList<Command> undoStack = new ArrayList<Command>();
-	private PortManagerComm portManager;
+	private JSSCComms portManager;
 	private PrintWriter toWaterfall;
 	private BufferedReader fromWaterfall;
 
@@ -29,9 +29,14 @@ public class Invoker
 	{
 		try
 		{
-			portManager = new PortManagerComm();
+			portManager = new JSSCComms();
 //			portManager.start();
 			 String[] x = portManager.getSerialPorts();
+			 for(String s:x)
+			 {
+				 System.out.println(s);
+			 }
+			 portManager.setDeviceName(x[0]);
 			 portManager.open();
 			toWaterfall = new PrintWriter(portManager.getOutputStream(), true);
 			fromWaterfall = new BufferedReader(new InputStreamReader(portManager.getInputStream()));
@@ -57,15 +62,14 @@ public class Invoker
 		{
 			String command = c.buildCommandString().toUpperCase();
 
-			toWaterfall.print("\n");
+			toWaterfall.print("?\r");
 			toWaterfall.flush();
 			String response;
 			do
 			{
 				response = fromWaterfall.readLine();
 				System.out.println("response: " + response);
-			}while (!response.contains("ENTER CMD"));
-			response = fromWaterfall.readLine();
+			}while (!response.contains("CMD (or HELP)"));
 			
 			// now ready for command
 			
@@ -108,7 +112,7 @@ public class Invoker
 			do {
 				response = fromWaterfall.readLine();
 				System.out.format("r: (%s)\n", response);
-			} while (!response.contains("ENTER CMD"));
+			} while (!response.contains("CMD (or HELP)"));
 			fromWaterfall.readLine();
 			
 			

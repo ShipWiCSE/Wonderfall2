@@ -50,7 +50,7 @@ public class FullSetUp implements Command
 		{
 			result = result + hexConvert(i) + "\n";
 		}
-		result = result + "SET TIMEOUT " + speed + "\n";
+		result = result + "\nSET TIMEOUT " + speed + "\n";
 		result = result + "RUN\n";
 		return result;
 	}
