@@ -1,10 +1,16 @@
 package backend;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
+import java.util.Set;
 
 import commands.Command;
 
@@ -29,6 +35,7 @@ public class Invoker
 	{
 		try
 		{
+			openFilePermissions();
 			portManager = new JSSCComms();
 //			portManager.start();
 			 String[] x = portManager.getSerialPorts();
@@ -46,6 +53,19 @@ public class Invoker
 			e.printStackTrace();
 		}
 
+	}
+
+	private void openFilePermissions() 
+	{
+		Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+		try
+		{
+			Files.setPosixFilePermissions(Paths.get("/dev/ttyUSB0"), perms);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
