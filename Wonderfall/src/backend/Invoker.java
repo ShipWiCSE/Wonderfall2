@@ -35,7 +35,7 @@ public class Invoker
 	{
 		try
 		{
-			openFilePermissions();
+//			openFilePermissions();
 			portManager = new JSSCComms();
 //			portManager.start();
 			 String[] x = portManager.getSerialPorts();
