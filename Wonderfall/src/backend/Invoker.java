@@ -113,7 +113,7 @@ public class Invoker
 				response = fromWaterfall.readLine();
 				System.out.format("r: (%s)\n", response);
 			} while (!response.contains("CMD (or HELP)"));
-			fromWaterfall.readLine();
+//			fromWaterfall.readLine();
 			
 			
 		} catch (IOException e)
