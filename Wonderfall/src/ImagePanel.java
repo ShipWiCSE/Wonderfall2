@@ -39,7 +39,6 @@ class ImagePanel extends JPanel
 		this.repaint();
 	}
 
-	// need to do this also to a buffered image to get the raster bit map
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -47,6 +46,9 @@ class ImagePanel extends JPanel
 		this.setPreferredSize(new Dimension(32, totalHeight));
 		this.setMaximumSize(new Dimension(32, totalHeight));
 		this.setMinimumSize(new Dimension(32, totalHeight));
+		g.setColor(Color.WHITE);
+		g.fillRect(this.getWidth()/2, 0, 32, 300);
+		g.setColor(Color.BLACK);
 		addEveryTo(g, this.getParent().getWidth());
 		revalidate();
 		// BufferedImage img = new BufferedImage(super.getWidth(),
@@ -92,7 +94,7 @@ class ImagePanel extends JPanel
 		boolean[][] bits = new boolean[totalHeight][32];
 
 		BufferedImage image = new BufferedImage(totalHeight, 36,
-				BufferedImage.TYPE_USHORT_GRAY);;
+				BufferedImage.TYPE_USHORT_GRAY);
 		
 		int whereWeAre = 0;
 		for (int i = 0; i < drawables.size(); i++)
@@ -116,7 +118,7 @@ class ImagePanel extends JPanel
 			for (int row = 0; row < 32; row++)
 			{
 				int rgb = raster.getSample(col, row, 0);
-				if (rgb == 0)
+				if (rgb != 0)
 				{
 					bits[col][31-row] = true;
 					System.out.print("1");
@@ -129,6 +131,11 @@ class ImagePanel extends JPanel
 		}
 
 		return bits;
+	}
+
+	public void clear() {
+		drawables.clear();
+		this.repaint();
 	}
 
 }

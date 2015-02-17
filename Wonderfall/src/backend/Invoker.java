@@ -36,7 +36,7 @@ public class Invoker
 			 {
 				 System.out.println(s);
 			 }
-			 portManager.setDeviceName(x[0]);
+			 portManager.setDeviceName("/dev/ttyUSB0");
 			 portManager.open();
 			toWaterfall = new PrintWriter(portManager.getOutputStream(), true);
 			fromWaterfall = new BufferedReader(new InputStreamReader(portManager.getInputStream()));

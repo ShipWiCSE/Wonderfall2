@@ -111,7 +111,17 @@ public class UI
 		});
 		speedPanel.add(speedSetButton);
 		speedPanel.setBorder(new TitledBorder("Speed"));
+		JButton clear =  new JButton("Clear Image");
+		clear.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				imagePanel.clear();
+			}
+			
+		});
 		controlPanel.add(speedPanel);
+		controlPanel.add(clear);
 		centerPanel.add(controlPanel);
 		frame.add(centerPanel);
 

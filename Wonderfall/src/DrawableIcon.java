@@ -43,12 +43,12 @@ public class DrawableIcon implements Drawable
 				{
 					raster.setPixel(col, row, WHITE);
 					rasterRotated.setPixel(imageRotated.getWidth() - 1 - row,
-							col, WHITE);
+							col, BLACK);
 				} else
 				{
 					raster.setPixel(col, row, BLACK);
 					rasterRotated.setPixel(imageRotated.getWidth() - 1 - row,
-							col, BLACK);
+							col, WHITE);
 				}
 			}
 		}
