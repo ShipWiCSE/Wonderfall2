@@ -25,6 +25,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
 import backend.Invoker;
+import commands.Flood;
 import commands.FullSetUp;
 import commands.SetSpeed;
 
@@ -90,6 +91,9 @@ public class UI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				Flood flood= new Flood();
+                Invoker.getSingleton().execute(flood);
+				
 				boolean[][] bits = imagePanel.getImageAsBits();
 				FullSetUp command= new FullSetUp(bits,(Integer)speed.getValue());
                 Invoker.getSingleton().execute(command);
@@ -97,6 +101,19 @@ public class UI
 			
 		});
 		controlPanel.add(sendButton);
+		
+		JButton floodButton = new JButton("Flood");
+		floodButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Flood flood= new Flood();
+                Invoker.getSingleton().execute(flood);
+			}	
+		});
+		controlPanel.add(floodButton);
+		
 		JPanel speedPanel = new JPanel();
 		speedPanel.add(speed);
 		JButton speedSetButton = new JButton("Set Timeout");
@@ -120,6 +137,10 @@ public class UI
 			}
 			
 		});
+		
+
+		
+		
 		controlPanel.add(speedPanel);
 		controlPanel.add(clear);
 		centerPanel.add(controlPanel);
