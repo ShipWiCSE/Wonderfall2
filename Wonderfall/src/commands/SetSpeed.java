@@ -36,7 +36,7 @@ public class SetSpeed implements Command
 	public String buildCommandString()
 	{
 		String result = "";
-		result = result + "\nSET TIMEOUT " + speed + "\n";
+		result = result + "SET TIMEOUT " + speed + "\n";
 		result = result + "RUN\n";
 		return result;
 	}

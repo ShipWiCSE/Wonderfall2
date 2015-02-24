@@ -35,7 +35,7 @@ public class Invoker
 	{
 		try
 		{
-			openFilePermissions();
+//			openFilePermissions();
 			portManager = new JSSCComms();
 //			portManager.start();
 			 String[] x = portManager.getSerialPorts();
@@ -133,7 +133,7 @@ public class Invoker
 				response = fromWaterfall.readLine();
 				System.out.format("r: (%s)\n", response);
 			} while (!response.contains("CMD (or HELP)"));
-			fromWaterfall.readLine();
+//			fromWaterfall.readLine();
 			
 			
 		} catch (IOException e)
