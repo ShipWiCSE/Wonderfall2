@@ -26,6 +26,8 @@ public class PresetFileReader
 		ArrayList<String> strings = new ArrayList<String>();
 		while (scanner.hasNext())
 		{
+			int speed = scanner.nextInt();
+			scanner.nextLine();
 			String line = scanner.nextLine();
 			while (line.charAt(0) != '*')
 			{
@@ -37,7 +39,7 @@ public class PresetFileReader
 				strings.add(line);
 				line = scanner.nextLine();
 			}
-			icons.add(new DrawableIcon(strings));
+			icons.add(new DrawableIcon(strings, speed));
 			strings = new ArrayList<String>();
 		}
 		scanner.close();
