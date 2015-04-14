@@ -38,7 +38,7 @@ public class UI
 	private static final int FONT_SIZE = 32;
 	private static final String PRESETS_DIRECTORY = "presets";
 	private static final String[] FONTS =
-	{ "Arial", "Courier", "Helvetica", "Times New Roman" };
+	{ "Arial", "Courier", "Helvetica", "Times New Roman", "Agency FB" };
 	protected static final int NUMBER_OF_VALVES = 32;
 	protected static final int FONT_OVERSIZE = 10;
 	private JTextField textField;
@@ -92,7 +92,7 @@ public class UI
 			public void actionPerformed(ActionEvent e)
 			{
 				Flood flood= new Flood();
-                Invoker.getSingleton().execute(flood);
+				Invoker.getSingleton().execute(flood);
 				
 				boolean[][] bits = imagePanel.getImageAsBits();
 				FullSetUp command= new FullSetUp(bits,(Integer)speed.getValue());
@@ -194,7 +194,7 @@ public class UI
 		presetPanel.add(presetFilesBox, constraints);
 		
 		presetIconsPanel = new JPanel();
-		presetIconsPanel.setLayout(new GridLayout(0,6));
+		presetIconsPanel.setLayout(new GridLayout(0,4));
 		
 //		scroller.setPreferredSize(new Dimension(width,height));
 //		scroller.setMaximumSize(new Dimension(width,height));

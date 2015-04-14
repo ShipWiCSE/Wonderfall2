@@ -27,7 +27,7 @@ public class FullSetUp implements Command
 		}
 			
 		this.pattern = pattern;
-		this.speed = speed;;
+		this.speed = speed;
 	}
 
 	/**
@@ -51,6 +51,8 @@ public class FullSetUp implements Command
 			result = result + hexConvert(i) + "\n";
 		}
 		result = result + "\nSET TIMEOUT " + speed + "\n";
+		result=result + "save config\n";
+		result = result + "debug off\n";
 		result = result + "RUN\n";
 		return result;
 	}

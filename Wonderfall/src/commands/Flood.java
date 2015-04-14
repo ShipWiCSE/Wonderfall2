@@ -31,7 +31,7 @@ public class Flood implements Command
 	@Override
 	public String buildCommandString()
 	{
-		String result = "debug0xffffffff";
+		String result = "debug 0xffffffff\n";
 		return result;
 	}
 
