@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -48,6 +49,7 @@ public class UI
 	private DrawableIcon drawableIcon;
 	private JComboBox<String> presetFilesBox;
 	private JPanel presetIconsPanel;
+	private JPanel presetPanel;
 	private static JSpinner speed;
 
 	/**
@@ -70,7 +72,7 @@ public class UI
 		JPanel textEditingPanel = makeTextEditingPanel();
 
 		JPanel doodlePanel = new JPanel();
-		JPanel presetPanel = makePresetPanel(tabbedPanel.getWidth(), tabbedPanel.getHeight());
+		presetPanel = makePresetPanel(tabbedPanel.getWidth(), tabbedPanel.getHeight());
 
 		tabbedPanel.addTab("Text", textEditingPanel);
 		tabbedPanel.addTab("Doodle", doodlePanel);
@@ -321,6 +323,7 @@ public class UI
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
+			JOptionPane.showMessageDialog(presetPanel, "Optimal speed for that preset is " + icon.getOptimalSpeed());
 			imagePanel.addImage(icon);
 		}
 	}

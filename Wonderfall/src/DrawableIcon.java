@@ -18,15 +18,18 @@ public class DrawableIcon implements Drawable
 	{ 255, 255, 255 };
 	BufferedImage image;
 	BufferedImage imageRotated;
+	private int speed;
 
 	/**
 	 * Build the image from a list of strings of 1s and 0s. 0 will be black
 	 * (where water should be) and 1 will be white (where water shouldn't be)
 	 * 
 	 * @param strings the data we should make the image from
+	 * @param speed the speed at which it should be displayed
 	 */
-	public DrawableIcon(ArrayList<String> strings) 
+	public DrawableIcon(ArrayList<String> strings, int speed) 
 	{
+		this.speed = speed;
 		image = new BufferedImage(32, strings.size(),
 				BufferedImage.TYPE_INT_RGB);
 		imageRotated = new BufferedImage(strings.size(), 32,
@@ -81,6 +84,12 @@ public class DrawableIcon implements Drawable
 	public Image getImage()
 	{
 		return image;
+	}
+
+
+	public int getOptimalSpeed()
+	{
+		return speed;
 	}
 
 }

@@ -22,8 +22,10 @@ public class PresetFileReaderTests
 	public void justTwo() throws FileFormatException, IOException
 	{
 		PresetFileReader reader = new PresetFileReader();
-		ArrayList<DrawableIcon> icons = reader.readFile("presetDiagonals.txt");
-		assertEquals(3, icons.size());
+		ArrayList<DrawableIcon> icons = reader.readFile("presets/Diagonals");
+		assertEquals(2, icons.size());
+		assertEquals(110, icons.get(0).getOptimalSpeed());
+		assertEquals(180, icons.get(1).getOptimalSpeed());
 	}
 
 }
