@@ -160,7 +160,7 @@ public class UI
 	private void setUpSpeedInput()
 	{
 		Integer value = new Integer(100);
-		 Integer min = new Integer(50);
+		 Integer min = new Integer(10);
 		 Integer max = new Integer(250);
 		 Integer step = new Integer(10);
 		 SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
