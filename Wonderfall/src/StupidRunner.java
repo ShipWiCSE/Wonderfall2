@@ -17,7 +17,7 @@ public class StupidRunner
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				drawPad.clear();
+				drawPad.clearEverything();
 			}
 		});
 		frame.add(clearButton, BorderLayout.SOUTH);

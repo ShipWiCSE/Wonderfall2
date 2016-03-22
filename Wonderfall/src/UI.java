@@ -29,6 +29,7 @@ import backend.Invoker;
 import commands.Flood;
 import commands.FullSetUp;
 import commands.SetSpeed;
+import commands.Stop;
 
 /**
  * 
@@ -85,7 +86,7 @@ public class UI
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				doodlePad.clear();
+				doodlePad.clearEverything();
 			}
 		});
 		doodlePanel.add(clearButton, BorderLayout.SOUTH);
@@ -149,6 +150,18 @@ public class UI
 			}
 		});
 		controlPanel.add(floodButton);
+		
+		JButton stopButton = new JButton("Stop");
+		stopButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Stop stop = new Stop();
+				Invoker.getSingleton().execute(stop);
+			}
+		});
+		controlPanel.add(stopButton);
 
 		JPanel speedPanel = new JPanel();
 		speedPanel.add(speed);

@@ -24,11 +24,7 @@ class DoodlePad extends JComponent
 
 	public DoodlePad()
 	{
-		encoding = new ArrayList<StringBuffer>(UI.NUMBER_OF_DOODLE_ROWS);
-		for (int i=0;i<UI.NUMBER_OF_DOODLE_ROWS;i++)
-		{
-			encoding.add(new StringBuffer("11111111111111111111111111111111"));
-		}
+		initializeEncoding();
 		setDoubleBuffered(false);
 		addMouseListener(new MouseAdapter()
 		{
@@ -112,10 +108,24 @@ class DoodlePad extends JComponent
 			{
 				graphics2D.fillRect(x * UI.DOODLE_WIDTH_MULTIPLIER, y * UI.DOODLE_WIDTH_MULTIPLIER,
 						UI.DOODLE_WIDTH_MULTIPLIER, UI.DOODLE_WIDTH_MULTIPLIER);
-				StringBuffer row = encoding.get(y);
-				row.setCharAt(x, '0');
+				if (y >= 0 && y < UI.NUMBER_OF_DOODLE_ROWS)
+				{
+					StringBuffer row = encoding.get(y);
+					if (x >= 0 && x < UI.NUMBER_OF_VALVES)
+					{
+						row.setCharAt(x, '0');
+					}
+				}
 			}
 		});
+	}
+
+	private void initializeEncoding() {
+		encoding = new ArrayList<StringBuffer>(UI.NUMBER_OF_DOODLE_ROWS);
+		for (int i=0;i<UI.NUMBER_OF_DOODLE_ROWS;i++)
+		{
+			encoding.add(new StringBuffer("11111111111111111111111111111111"));
+		}
 	}
 
 	int convertToScreenPosition(int x)
@@ -130,13 +140,18 @@ class DoodlePad extends JComponent
 			image = createImage(getSize().width, getSize().height);
 			graphics2D = (Graphics2D) image.getGraphics();
 			graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			clear();
+			clearGraphics();
 		}
 		g.drawImage(image, 0, 0, null);
 	}
 
-	public void clear()
+	public void clearEverything()
 	{
+		clearGraphics();
+		initializeEncoding();
+	}
+
+	private void clearGraphics() {
 		graphics2D.setPaint(Color.white);
 		graphics2D.fillRect(0, 0, getSize().width, getSize().height);
 		graphics2D.setPaint(Color.black);
